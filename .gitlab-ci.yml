@@ -1,0 +1,54 @@
+stages:
+  - build-meteor
+  - build-docker
+
+build-meteor:
+  image: debian:wheezy
+  cache:
+    paths:
+      - .meteor-cache
+  only:
+    - master
+  stage: build-meteor
+  variables:
+    METEOR_ALLOW_SUPERUSER: "true"
+  before_script:
+    # setup cache
+    - if [ -e ".meteor-cache/meteor" ]; then echo "Linking Meteor from cache ..." && ln -s `pwd`/.meteor-cache $HOME/.meteor; fi
+    # install base dependencies
+    - apt-get update -y
+    - apt-get install -y curl bzip2 build-essential python git
+    - if [ ! -e "$HOME/.meteor/meteor" ]; then curl -sL https://install.meteor.com | sed s/--progress-bar/-sL/g | /bin/sh; fi
+    - export PATH="$HOME/.meteor:$PATH"
+    - cd $CI_PROJECT_DIR
+  script:
+    - meteor npm install
+    - meteor build --server-only --server=${SITE_URL} /tmp/build
+    - mv /tmp/build/${CI_PROJECT_NAME}.tar.gz $CI_PROJECT_DIR/bundle.tar.gz
+  after_script:
+    # if ran without cache, copy Meteor folder to create the cache
+    - if [ ! -e ".meteor-cache/meteor" ]; then echo "Copying Meteor cache ..." && cp -r $HOME/.meteor .meteor-cache; fi
+  artifacts:
+    expire_in: 20 min
+    paths:
+      - bundle.tar.gz
+
+build-docker-master:
+  image: docker:latest
+  only:
+    - master
+  stage: build-docker
+  services:
+    - docker:dind
+  before_script:
+    - docker info
+  script:
+    - mkdir /tmp/app
+    - tar xzf bundle.tar.gz -C /tmp/app
+    - cp Dockerfile /tmp/app
+    - cd /tmp/app
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+    - docker build -t registry.gitlab.com/marceloschmidt/${CI_PROJECT_NAME}:latest .
+    - docker push registry.gitlab.com/marceloschmidt/${CI_PROJECT_NAME}:latest
+  dependencies:
+    - build-meteor

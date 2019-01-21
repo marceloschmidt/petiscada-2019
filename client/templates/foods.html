@@ -1,0 +1,19 @@
+<template name="foods">
+  <div class="page recipes">
+
+    {{> nav title='Petiscos'}}
+
+    <div class="content-scrollable">
+			<div class="list-recipes">
+        {{#each this}}
+          {{#if highlighted}}
+            {{> recipeItem recipe=this size='large'}}
+          {{else}}
+            {{> recipeItem recipe=this size='small'}}
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+
+  </div>
+</template>

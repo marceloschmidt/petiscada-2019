@@ -1,0 +1,60 @@
+<template name="appBody">
+  <div id="container" class="{{menuOpen}} {{overlayOpen}}">
+    <section id="menu" class="overthrow">
+      <a href="{{pathFor 'home'}}" class="{{activePage 'home'}}">
+        <span class="wrapper-menu-item">
+          <span class="fas fa-home"></span>
+          <span class="title-menu">Início</span>
+        </span>
+      </a>
+      <a href="{{pathFor 'comidas'}}" class="{{activePage 'comidas'}}">
+        <span class="wrapper-menu-item">
+          <span class="fas fa-utensils"></span>
+          <span class="title-menu">Petiscos</span>
+        </span>
+      </a>
+      <a href="{{pathFor 'bebidas'}}" class="{{activePage 'bebidas'}}">
+        <span class="wrapper-menu-item">
+          <span class="fas fa-wine-glass"></span>
+          <span class="title-menu">Bebidas</span>
+        </span>
+      </a>
+      <a href="{{pathFor 'sobremesas'}}" class="{{activePage 'sobremesas' 'recipe'}}">
+        <span class="wrapper-menu-item">
+          <span class="fas fa-utensil-spoon"></span>
+          <span class="title-menu">Sobremesas</span>
+        </span>
+      </a>
+      <a href="{{pathFor 'pedidos'}}" class="{{activePage 'pedidos'}}">
+        <span class="wrapper-menu-item">
+          <span class="fas fa-money-check"></span>
+          <span class="title-menu">Pedidos</span>
+        </span>
+      </a>
+    </section>
+
+      <div class="notifications">
+        {{#unless connected}}
+          <div class="notification">
+            <span class="icon-sync"></span>
+            <div class="title-notification">Conectando</div>
+          </div>
+        {{/unless}}
+        {{#each notifications}}
+          <div class="notification">
+            <a class="btn-primary js-notification-action">{{action}}</a>
+            <div class="title-notification">{{title}}</div>
+          </div>
+        {{/each}}
+      </div>
+
+    {{> overlay}}
+
+    <div class="content-overlay"></div>
+
+    <div id="content-container">
+      {{> yield}}
+    </div>
+
+	</div>
+</template>

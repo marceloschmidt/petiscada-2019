@@ -1,0 +1,246 @@
+<template name="adminCustomers">
+	{{#if user.admin}}
+		<div class="page">
+			<div class="page-main">
+				<div class="header py-4">
+					<div class="container">
+						<div class="d-flex">
+							<div class="d-flex order-lg-2 ml-auto">
+								<div class="dropdown">
+									<a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
+										<span class="avatar" style="background-image: url({{user.services.google.picture}})"></span>
+										<span class="ml-2 d-none d-lg-block">
+											<span class="text-default">{{user.services.google.name}}</span>
+											<small class="text-muted d-block mt-1">Administrador</small>
+										</span>
+									</a>
+									<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+										<a class="dropdown-item logout" href="#">
+											Logout
+										</a>
+									</div>
+								</div>
+							</div>
+							<a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
+								<span class="header-toggler-icon"></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+					<div class="container">
+						<div class="row align-items-center">
+							<div class="col-lg order-lg-first">
+								<ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+									<li class="nav-item"> <a href="/admin" class="nav-link"> Dashboard</a> </li>
+									<li class="nav-item"> <a href="/admin/clientes" class="nav-link active"> Clientes</a> </li>
+									<li class="nav-item"> <a href="/admin/pedidos" class="nav-link"> Pedidos</a> </li>
+									<li class="nav-item"> <a href="/admin/cozinha" class="nav-link"> Cozinha</a> </li>
+									<li class="nav-item"> <a href="/admin/balcao" class="nav-link"> Balcão</a> </li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="my-3 my-md-5">
+					<div class="container">
+						<div class="page-header">
+							<h1 class="page-title">
+								Clientes
+							</h1>
+							<div class="page-options d-flex">
+								<select class="form-control custom-select w-auto sort">
+									<option value="createdAt:-1">Mais Novo</option>
+									<option value="createdAt:1">Mais Antigo</option>
+									<option value="total:1">Menos gastos</option>
+									<option value="total:-1">Mais gastos</option>
+								</select>
+							</div>
+						</div>
+						<div class="row row-cards">
+							{{#if adding}}
+								<div class="col-lg-4">
+									<form class="card">
+										<div class="card-body">
+											<div class="form-group">
+												<div class="form-label">Código</div>
+												<input type="number" id="code" class="form-control" value="{{customer.code}}" />
+											</div>
+											<div class="form-group">
+												<div class="form-label">Nome</div>
+												<input type="text" id="name" class="form-control" value="{{customer.name}}" />
+											</div>
+											<div class="form-group">
+												<div class="form-label">Mesa</div>
+												<input type="number" id="table" class="form-control" value="{{customer.table}}" />
+											</div>
+											<div class="form-group">
+												<div class="form-label">Pessoas</div>
+												<input type="number" id="people" class="form-control" value="{{customer.people}}" />
+											</div>
+											<div class="form-group">
+												<div class="form-label">Ingressos</div>
+												<input type="number" id="tickets" class="form-control" value="{{customer.tickets}}" />
+											</div>
+										</div>
+										<div class="card-footer text-right">
+											<button class="btn btn-secondary cancel">Cancelar</button>
+											<button class="btn btn-primary save-new">Salvar</button>
+										</div>
+									</form>
+								</div>
+							{{else}}
+								<div class="col-lg-4">
+									<form class="card">
+										<div class="card-body">
+											<div class="form-group">
+												<div class="form-label">Código</div>
+												<input type="text" id="filterCode" class="form-control" />
+											</div>
+											<div class="form-group">
+												<div class="form-label">Nome</div>
+												<input type="text" id="filterName" class="form-control" />
+											</div>
+										</div>
+										<div class="card-footer text-right">
+											<button class="btn btn-tertiary search">Pesquisar</button>
+										</div>
+									</form>
+									<button class="btn btn-primary new">Novo</button>
+								</div>
+							{{/if}}
+							<div class="col-lg-8">
+								<div class="card">
+									<table class="table card-table table-vcenter">
+										<tr>
+											<th class="d-none d-sm-table-cell">Código</th>
+											<th>Nome</th>
+											<th>Mesa</th>
+											<th>Pessoas</th>
+											<th class="d-none d-md-table-cell">Valor</th>
+											<th class="w-1"></th>
+										</tr>
+										{{#each customers}}
+											<tr>
+												<td class="d-none d-sm-table-cell">{{code}}</td>
+												<td>{{name}}</td>
+												<td class="d-none d-sm-table-cell">{{table}}</td>
+												<td class="d-none d-sm-table-cell">{{people}}</td>
+												<td class="d-none d-md-table-cell">R$ {{moneyFormat total}}</td>
+												<td>
+													<div class="selectgroup w-100">
+														<span class="selectgroup-button selectgroup-button-icon edit">
+															<i class="fas fa-edit"></i>
+														</span>
+														<!-- <span class="selectgroup-button selectgroup-button-icon add-item"> <i class="far fa-plus-square"></i> </span> -->
+														<span class="selectgroup-button selectgroup-button-icon pay">
+															{{#if closed}}<i class="fas fa-receipt"></i>{{else}}<i class="fas fa-dollar-sign"></i>{{/if}}
+														</span>
+														<span class="selectgroup-button selectgroup-button-icon trash">
+															<i class="fas fa-trash"></i>
+														</span>
+													</div>
+												</td>
+											</tr>
+										{{/each}}
+									</table>
+								</div>
+								<ul class="pagination ">
+									<li class="page-item page-prev {{#unless hasLess}}disabled{{/unless}}">
+										<a class="page-link" href="#" tabindex="-1">
+											Anterior
+										</a>
+									</li>
+									<li class="page-item page-next {{#unless hasMore}}disabled{{/unless}}">
+										<a class="page-link" href="#">
+											Próxima
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="closeCustomerModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<a href="#" data-dismiss="modal" aria-hidden="true" class="secondary"> × </a>
+						<h4 class="modal-title" id="classModalLabel">
+							Fechar a conta
+						</h4>
+					</div>
+					<div class="modal-body">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">{{closeCustomer.name}}
+									<div class="small text-muted">{{closeCustomer.code}}</div>
+								</h3>
+							</div>
+							<div class="card-body">
+								{{#if closeCustomerLoading}}
+									<div class="loader"></div>
+								{{else}}
+									<div class="table-responsive push">
+										<table class="table table-bordered table-hover">
+											<tr>
+												<th class="text-center" style="width: 1%"></th>
+												<th>Produto</th>
+												<th class="text-center" style="width: 1%">Quantidade</th>
+												<th class="text-right" style="width: 20%">Unitário</th>
+												<th class="text-right" style="width: 20%">Sub-Total</th>
+											</tr>
+											{{#each $mapped invoiceOrders}}
+												<tr>
+													<td class="text-center">
+														<p class="font-w600 mb-1">{{add1 $index}}</p>
+													</td>
+													<td>
+														<p class="font-w600 mb-1">{{title}}</p>
+													</td>
+													<td class="text-center">
+														{{quantity}}
+													</td>
+													<td class="text-right">R$ {{moneyFormat price}}</td>
+													<td class="text-right">R$ {{moneyFormat subtotal}}</td>
+												</tr>
+											{{/each}}
+											{{#unless closeCustomer.closed}}
+												<tr>
+													<td></td>
+													<td>
+														<input type="text" class="form-control no-padding new-order-item"> </td>
+													<td>
+														<input type="number" class="form-control no-padding text-center new-order-quantity"> </td>
+													<td class="text-center">
+														<input type="number" class="form-control no-padding text-right new-order-price"> </td>
+													<td class="text-right">R$ {{moneyFormat newOrderTotal}}</td>
+												</tr>
+											{{/unless}}
+											<tr>
+												<td colspan="4" class="font-weight-bold text-uppercase text-right">Total</td>
+												<td class="font-weight-bold text-right">R$ {{moneyFormat closeCustomerTotal}}</td>
+											</tr>
+										</table>
+									</div>
+									<div class="card-footer text-right">
+										{{#unless closeCustomer.closed}}
+											<button class="btn btn-small btn-primary narrow do-pay money-confirm"><i class="far fa-money-bill-alt"></i><br />Dinheiro</button>
+											<button class="btn btn-small btn-primary narrow do-pay debit-confirm"><i class="far fa-credit-card"></i><br />Débito</button>
+											<button class="btn btn-small btn-primary narrow do-pay credit-confirm"><i class="fas fa-credit-card"></i><br />Crédito</button>
+											<button class="btn btn-small btn-primary narrow do-pay check-confirm"><i class="fas fa-money-check-alt"></i><br />Cheque</button>
+										{{else}}
+											<button class="btn btn-secondary small" data-dismiss="modal">Fechar</button>
+										{{/unless}}
+									</div>
+								{{/if}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{{/if}}
+</template>

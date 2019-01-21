@@ -1,0 +1,25 @@
+<template name="orders">
+	<div class="page orders">
+		{{> nav title='Pedidos' red=true}}
+
+		<div class="content-scrollable">
+			{{#each orders}}
+			<div class="order">
+				<div class="left">
+					<h1 class="title">{{title}}</h1>
+					<span class="status">{{status}}</span>
+				</div>
+				<div class="right">
+					<span class="time">{{getTime createdAt}}</span>
+					<span class="cost">R$ {{moneyFormat price}}</span>
+				</div>
+			</div>
+			{{/each}}
+		</div>
+
+		<span class="total">
+			<span class="title">Total</span>
+			<span class="price">R$ {{moneyFormat total}}</span>
+		</span>
+	</div>
+</template>

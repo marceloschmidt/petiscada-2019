@@ -1,0 +1,123 @@
+<template name="admin">
+	{{#if user.admin}}
+		<div class="page">
+			<div class="page-main">
+				<div class="header py-4">
+					<div class="container">
+						<div class="d-flex">
+							<div class="d-flex order-lg-2 ml-auto">
+								<div class="dropdown">
+									<a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
+										<span class="avatar" style="background-image: url({{user.services.google.picture}})"></span>
+										<span class="ml-2 d-none d-lg-block">
+											<span class="text-default">{{user.services.google.name}}</span>
+											<small class="text-muted d-block mt-1">Administrador</small>
+										</span>
+									</a>
+									<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+										<a class="dropdown-item logout" href="#">
+											Logout
+										</a>
+									</div>
+								</div>
+							</div>
+							<a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
+								<span class="header-toggler-icon"></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+					<div class="container">
+						<div class="row align-items-center">
+							<div class="col-lg order-lg-first">
+								<ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+									<li class="nav-item"> <a href="/admin" class="nav-link active"> Dashboard</a> </li>
+									<li class="nav-item"> <a href="/admin/clientes" class="nav-link"> Clientes</a> </li>
+									<li class="nav-item"> <a href="/admin/pedidos" class="nav-link"> Pedidos</a> </li>
+									<li class="nav-item"> <a href="/admin/cozinha" class="nav-link"> Cozinha</a> </li>
+									<li class="nav-item"> <a href="/admin/balcao" class="nav-link"> Balcão</a> </li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="my-3 my-md-5">
+					<div class="container">
+						<div class="row row-cards">
+							<div class="col-lg-12">
+								<div class="row">
+									<div class="col-lg-4 col-md-4">
+										<div class="card">
+											<div class="card-body text-center">
+												<div class="h5">Clientes<br />Abertos / Fechados</div>
+												<div class="display-4 font-weight-bold mb-4">{{totalCustomers.open}} / {{totalCustomers.closed}}</div>
+												<div class="progress progress-xs">
+													<div class="progress-bar bg-yellow" role="progressbar" style="width: {{totalCustomers.perc}}%" aria-valuenow="{{totalCustomers.perc}}" aria-valuemin="0"
+													 aria-valuemax="100"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4 col-md-4">
+										<div class="card">
+											<div class="card-body text-center">
+												<div class="h5">Pedidos<br />em Aberto</div>
+												<div class="display-4 font-weight-bold mb-4">R$ {{moneyFormat totalSales.open}}</div>
+												<div class="progress progress-xs">
+													<div class="progress-bar bg-red" role="progressbar" style="width: {{totalSales.percOpen}}%" aria-valuenow="{{totalSales.percOpen}}" aria-valuemin="0" aria-valuemax="100"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4 col-md-4">
+										<div class="card">
+											<div class="card-body text-center">
+												<div class="h5">Pedidos<br />Fechados</div>
+												<div class="display-4 font-weight-bold mb-4">R$ {{moneyFormat totalSales.closed}}</div>
+												<div class="progress progress-xs">
+													<div class="progress-bar bg-green" role="progressbar" style="width: {{totalSales.percClosed}}%" aria-valuenow="{{totalSales.percClosed}}"
+													 aria-valuemin="0" aria-valuemax="100"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4 col-md-4">
+										<div class="card">
+											<div class="card-body text-center">
+												<div class="h5">Pessoas</div>
+												<div class="display-4 font-weight-bold mb-4">{{totalPeople}}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4 col-xl-4">
+										<div class="card">
+											<div class="card-header">
+												<h3 class="card-title">Formas de Pagamento</h3>
+											</div>
+											<div class="card-body">
+												<div id="chart-payments" style="height: 16rem"></div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4 col-xl-4">
+										<div class="card">
+											<div class="card-header">
+												<h3 class="card-title">Pedidos</h3>
+											</div>
+											<div class="card-body">
+												<div id="chart-orders" style="height: 16rem"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{{else}}
+		<a class="login">Log in with Google</a>
+	{{/if}}
+</template>

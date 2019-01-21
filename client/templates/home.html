@@ -1,0 +1,27 @@
+<template name="home">
+  <div class="page home">
+
+    {{>nav title='Petiscada' black=true}}
+
+    <div class="content-scrollable">
+      <div class="bg-image home">
+        <span class="arrow"></span>
+			</div>
+
+			<div class="callout-news">
+				<span class="title-callout">Selecione</span> um produto para fazer seu pedido.
+			</div>
+
+			<h2 class="list-title">Nossas Sugestões</h2>
+
+      <div class="list-recipes">
+        {{#each featuredRecipes}}
+          {{> recipeItem recipe=this size='small'}}
+        {{/each}}
+      </div>
+
+      <button class="btn-primary waiter">Chamar um Garçom</button>
+    </div>
+
+  </div>
+</template>
