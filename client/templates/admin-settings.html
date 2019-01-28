@@ -1,4 +1,4 @@
-<template name="admin">
+<template name="adminSettings">
 	{{#if user.admin}}
 		<div class="page">
 			<div class="page-main">
@@ -32,12 +32,12 @@
 						<div class="row align-items-center">
 							<div class="col-lg order-lg-first">
 								<ul class="nav nav-tabs border-0 flex-column flex-lg-row">
-									<li class="nav-item"> <a href="/admin" class="nav-link active"> Dashboard</a> </li>
+									<li class="nav-item"> <a href="/admin" class="nav-link"> Dashboard</a> </li>
 									<li class="nav-item"> <a href="/admin/clientes" class="nav-link"> Clientes</a> </li>
 									<li class="nav-item"> <a href="/admin/pedidos" class="nav-link"> Pedidos</a> </li>
 									<li class="nav-item"> <a href="/admin/cozinha" class="nav-link"> Cozinha</a> </li>
 									<li class="nav-item"> <a href="/admin/balcao" class="nav-link"> Balcão</a> </li>
-									<li class="nav-item"> <a href="/admin/settings" class="nav-link"> Configurações</a> </li>
+									<li class="nav-item"> <a href="/admin/settings" class="nav-link active"> Configurações</a> </li>
 								</ul>
 							</div>
 						</div>
@@ -51,63 +51,27 @@
 									<div class="col-lg-4 col-md-4">
 										<div class="card">
 											<div class="card-body text-center">
-												<div class="h5">Clientes<br />Abertos / Fechados</div>
-												<div class="display-4 font-weight-bold mb-4">{{totalCustomers.open}} / {{totalCustomers.closed}}</div>
-												<div class="progress progress-xs">
-													<div class="progress-bar bg-yellow" role="progressbar" style="width: {{totalCustomers.perc}}%" aria-valuenow="{{totalCustomers.perc}}" aria-valuemin="0"
-													 aria-valuemax="100"></div>
-												</div>
+												<div class="h5">Petiscos</div>
+												<div class="display-4 font-weight-bold mb-4">Lista</div>
+												<div class="display-4 font-weight-bold mb-4">Form</div>
 											</div>
 										</div>
 									</div>
 									<div class="col-lg-4 col-md-4">
 										<div class="card">
 											<div class="card-body text-center">
-												<div class="h5">Pedidos<br />em Aberto</div>
-												<div class="display-4 font-weight-bold mb-4">R$ {{moneyFormat totalSales.open}}</div>
-												<div class="progress progress-xs">
-													<div class="progress-bar bg-red" role="progressbar" style="width: {{totalSales.percOpen}}%" aria-valuenow="{{totalSales.percOpen}}" aria-valuemin="0" aria-valuemax="100"></div>
-												</div>
+												<div class="h5">Bebidas</div>
+												<div class="display-4 font-weight-bold mb-4">Lista</div>
+												<div class="display-4 font-weight-bold mb-4">Form</div>
 											</div>
 										</div>
 									</div>
 									<div class="col-lg-4 col-md-4">
 										<div class="card">
 											<div class="card-body text-center">
-												<div class="h5">Pedidos<br />Fechados</div>
-												<div class="display-4 font-weight-bold mb-4">R$ {{moneyFormat totalSales.closed}}</div>
-												<div class="progress progress-xs">
-													<div class="progress-bar bg-green" role="progressbar" style="width: {{totalSales.percClosed}}%" aria-valuenow="{{totalSales.percClosed}}"
-													 aria-valuemin="0" aria-valuemax="100"></div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-4 col-md-4">
-										<div class="card">
-											<div class="card-body text-center">
-												<div class="h5">Pessoas</div>
-												<div class="display-4 font-weight-bold mb-4">{{totalPeople}}</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-4 col-xl-4">
-										<div class="card">
-											<div class="card-header">
-												<h3 class="card-title">Formas de Pagamento</h3>
-											</div>
-											<div class="card-body">
-												<div id="chart-payments" style="height: 16rem"></div>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-4 col-xl-4">
-										<div class="card">
-											<div class="card-header">
-												<h3 class="card-title">Pedidos</h3>
-											</div>
-											<div class="card-body">
-												<div id="chart-orders" style="height: 16rem"></div>
+												<div class="h5">Sobremesas</div>
+												<div class="display-4 font-weight-bold mb-4">Lista</div>
+												<div class="display-4 font-weight-bold mb-4">Form</div>
 											</div>
 										</div>
 									</div>
@@ -118,7 +82,5 @@
 				</div>
 			</div>
 		</div>
-	{{else}}
-		<a class="login">Log in with Google</a>
 	{{/if}}
 </template>
