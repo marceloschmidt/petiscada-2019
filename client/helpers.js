@@ -27,7 +27,7 @@ UI.registerHelper('recipeImage', function(options) {
   var size = options.hash.size || 'large';
 
 	if (options.hash.recipe)
-		return '/img/recipes/' + DIMENSIONS[size] + '/' + options.hash.recipe.name + '.jpg';
+		return '/img/menu/' + DIMENSIONS[size] + '/' + options.hash.recipe.name + '.jpg';
 
 });
 

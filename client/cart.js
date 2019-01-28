@@ -1,0 +1,3 @@
+Cart = {
+	items: new ReactiveVar([])
+};

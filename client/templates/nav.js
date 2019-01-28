@@ -5,5 +5,10 @@ Template.nav.helpers({
   // hot code push), but we can't rely on going back in such cases.
   back: function () {
     return this.back && ! history.state.initial;
-  }
+	},
+
+	cartCount() {
+		cart = Cart.items.get();
+		return cart.length;
+	}
 });

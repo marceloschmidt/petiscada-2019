@@ -5,14 +5,10 @@ nav {
   background: rgba(255,255,255,.97);
   text-align: center;
   z-index: 10;
+	color: @color-well;
 
-  &.black {
+	&.black {
     background: transparent;
-    color: @color-empty;
-
-    .nav-item {
-      color: @color-empty;
-    }
 
     // Gradient over image to give nav contrast, extends past nav boundaries
     &:after {

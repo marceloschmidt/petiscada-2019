@@ -1,13 +1,12 @@
 Template.home.helpers({
-  // selects FEATURED_COUNT number of recipes at random
   featuredRecipes: function() {
     var selection = [];
-		var recipes = _.values(Foods)
+		var recipes = Recipes.find({type: 'foods'}).fetch();
     for (var i = 0;i < 2;i++)
       selection.push(recipes.splice(_.random(recipes.length - 1), 1)[0]);
-		recipes = _.values(Drinks)
+		recipes = Recipes.find({ type: 'drinks' }).fetch();
 		selection.push(recipes.splice(_.random(recipes.length - 1), 1)[0]);
-		recipes = _.values(Desserts)
+		recipes = Recipes.find({ type: 'desserts' }).fetch();
 		selection.push(recipes.splice(_.random(recipes.length - 1), 1)[0]);
 
     return selection;

@@ -1,4 +1,4 @@
-Template.recipeItem.helpers({
+Template.menuItem.helpers({
   path: function () {
     return Router.path('pedido', this.recipe);
   },
