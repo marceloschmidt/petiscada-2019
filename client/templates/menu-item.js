@@ -1,6 +1,6 @@
 Template.menuItem.helpers({
   path: function () {
-    return Router.path('pedido', this.recipe);
+    return Router.path('pedido', this.item);
   },
 
   highlightedClass: function () {

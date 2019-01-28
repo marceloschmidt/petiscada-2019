@@ -1,13 +1,13 @@
 Template.home.helpers({
-  featuredRecipes: function() {
+  featuredItems: function() {
     var selection = [];
-		var recipes = Recipes.find({type: 'foods'}).fetch();
+		var menu = Menu.find({type: 'foods'}).fetch();
     for (var i = 0;i < 2;i++)
-      selection.push(recipes.splice(_.random(recipes.length - 1), 1)[0]);
-		recipes = Recipes.find({ type: 'drinks' }).fetch();
-		selection.push(recipes.splice(_.random(recipes.length - 1), 1)[0]);
-		recipes = Recipes.find({ type: 'desserts' }).fetch();
-		selection.push(recipes.splice(_.random(recipes.length - 1), 1)[0]);
+      selection.push(menu.splice(_.random(menu.length - 1), 1)[0]);
+		menu = Menu.find({ type: 'drinks' }).fetch();
+		selection.push(menu.splice(_.random(menu.length - 1), 1)[0]);
+		menu = Menu.find({ type: 'desserts' }).fetch();
+		selection.push(menu.splice(_.random(menu.length - 1), 1)[0]);
 
     return selection;
   }

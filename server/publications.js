@@ -5,8 +5,8 @@ Meteor.publish('notifications', function (code) {
 	return Notifications.find({ code: parseInt(code) }, { sort: { date: -1 } });
 });
 
-Meteor.publish('recipes', function () {
-	return Recipes.find({ outofstock: { $ne: true } }, { sort: { type: 1 } });
+Meteor.publish('menu', function () {
+	return Menu.find({ outofstock: { $ne: true } }, { sort: { type: 1 } });
 });
 
 Meteor.publish('orders', function ({ code = 0 } = {}) {

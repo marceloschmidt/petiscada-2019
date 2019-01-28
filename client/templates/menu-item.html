@@ -1,14 +1,14 @@
 <template name="menuItem">
   <a class="menu-item" href="{{path}}">
-    {{#with recipe}}
+    {{#with item}}
       <span class="attribution">
-        <span class="title-recipe">{{title}}</span>
-        <span class="metadata-recipe">
-          <span class="price-recipe">R$ {{moneyFormat price}}</span>
+        <span class="item-title">{{title}}</span>
+        <span class="item-metadata">
+          <span class="item-price">R$ {{moneyFormat price}}</span>
         </span>
       </span>
     {{/with}}
 
-    <img src="{{recipeImage recipe=recipe size=size}}" />
+    <img src="{{itemImage item=item size=size}}" />
   </a>
 </template>

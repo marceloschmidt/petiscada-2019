@@ -1,15 +1,15 @@
 <template name="menu">
-  <div class="page recipes">
+  <div class="page menu">
 
     {{> nav title=title}}
 
     <div class="content-scrollable">
-			<div class="list-recipes">
+			<div class="menu-items">
         {{#each items}}
           {{#if highlighted}}
-            {{> menuItem recipe=this size='large'}}
+            {{> menuItem item=this size='large'}}
           {{else}}
-            {{> menuItem recipe=this size='small'}}
+            {{> menuItem item=this size='small'}}
           {{/if}}
         {{/each}}
       </div>
