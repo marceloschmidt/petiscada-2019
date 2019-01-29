@@ -9,6 +9,12 @@ Template.orders.helpers({
 
 	total() {
 		let orders = Orders.find().fetch();
-		return orders.reduce((total, order) => { return total + order.price }, 0)
+		return orders.reduce((total, order) => { return total + (order.price * order.quantity) }, 0)
+	},
+
+	quantity() {
+		if (this.quantity > 1) {
+			return `x ${this.quantity}`;
+		}
 	}
 })

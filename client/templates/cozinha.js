@@ -4,9 +4,6 @@ Template.cozinha.helpers({
 	},
 	orders() {
 		return Orders.find({}, { sort: { createdAt: 1 } });
-	},
-	quantity() {
-		return this.quantity > 1 ? '<strong>' + this.quantity + '</strong>' : 1;
 	}
 })
 
