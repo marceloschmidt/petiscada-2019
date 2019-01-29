@@ -86,9 +86,25 @@ Template.appBody.onRendered(function() {
         }
       });
     }
-  };
+	};
 });
 
+Template.appBody.onCreated(function() {
+	this.toggleCart = (bool) => {
+		const cartWrapper = $('.cd-cart-container');
+		const cartIsOpen = (typeof bool === 'undefined') ? cartWrapper.hasClass('cart-open') : bool;
+
+		if (cartIsOpen) {
+			cartWrapper.removeClass('cart-open');
+			//reset undo
+			if (Cart.clearTimeout) {
+				Meteor.clearTimeout(Cart.clearTimeout);
+			}
+		} else {
+			cartWrapper.addClass('cart-open');
+		}
+	}
+})
 
 Template.appBody.helpers({
   menuOpen: function() {
@@ -106,7 +122,29 @@ Template.appBody.helpers({
 
   notifications: function() {
     return Notifications.find();
-  }
+	},
+
+	itemsCount() {
+		const items = Cart.find({ removed: { $ne: true }}).fetch();
+		return items.reduce((total, item) => { return total + item.quantity }, 0);
+	},
+
+	items() {
+		return Cart.find({ removed: { $ne: true } });
+	},
+
+	itemsTotal() {
+		const items = Cart.find({ removed: { $ne: true } }).fetch();
+		return items.reduce((total, item) => { return total + Number(item.price) * Number(item.quantity) }, 0)
+	},
+
+	quantity(num) {
+		return this.quantity === num ? 'selected' : '';
+	},
+
+	itemRemoved() {
+		return Cart.findOne({ removed: true }) ? 'visible' : '';
+	}
 });
 
 Template.appBody.events({
@@ -123,14 +161,6 @@ Template.appBody.events({
     history.back();
     event.stopImmediatePropagation();
     event.preventDefault();
-  },
-
-  'click a.js-open': function(event) {
-    // On Cordova, open links in the system browser rather than In-App
-    if (Meteor.isCordova) {
-      event.preventDefault();
-      window.open(event.target.href, '_system');
-    }
   },
 
   'click .content-overlay': function(event) {
@@ -150,5 +180,43 @@ Template.appBody.events({
     } else {
       Notifications.remove(this._id);
 		}
-  }
+	},
+
+	'click .cd-cart-container .delete-item'(event) {
+		event.preventDefault();
+		Cart.remove({ removed: true }, () => {
+			Cart.update({ _id: this._id }, { $set: { removed: true } });
+			Cart.clearTimeout = Meteor.setTimeout(() => { Cart.remove({ removed: true }) }, 10000);
+		});
+	},
+
+	'change .cd-cart-container select'(event) {
+		event.preventDefault();
+		Cart.update({ _id: this._id }, { $set: { quantity: Number($(event.currentTarget).val()) }});
+	},
+
+	'click .cd-cart-container .undo'(event) {
+		event.preventDefault();
+		if (Cart.clearTimeout) {
+			Meteor.clearTimeout(Cart.clearTimeout);
+		}
+		Cart.update({}, { $unset: { removed: 1 }});
+	},
+
+	'click .cd-cart-container .checkout'(event, instance) {
+		event.preventDefault();
+		instance.toggleCart(true);
+		if (Cart.find({ removed: { $ne: true } }).count() > 0) {
+			Overlay.open('buyOverlay');
+		}
+	},
+
+	'click .cd-cart-container .cd-cart-trigger'(event, instance) {
+		event.preventDefault();
+		instance.toggleCart();
+	},
+
+	'click .cd-cart-container'(event, instance) {
+		if ($(event.target).is($('.cd-cart-container'))) instance.toggleCart(true);
+	}
 });

@@ -18,3 +18,4 @@ Template.home.events({
 			return Overlay.open('waiterOverlay');
 	}
 })
+

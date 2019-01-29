@@ -33,20 +33,20 @@
       </a>
     </section>
 
-      <div class="notifications">
-        {{#unless connected}}
-          <div class="notification">
-            <span class="icon-sync"></span>
-            <div class="title-notification">Conectando</div>
-          </div>
-        {{/unless}}
-        {{#each notifications}}
-          <div class="notification">
-            <a class="btn-primary js-notification-action">{{action}}</a>
-            <div class="title-notification">{{title}}</div>
-          </div>
-        {{/each}}
-      </div>
+		<div class="notifications">
+			{{#unless connected}}
+				<div class="notification">
+					<span class="icon-sync"></span>
+					<div class="title-notification">Conectando</div>
+				</div>
+			{{/unless}}
+			{{#each notifications}}
+				<div class="notification">
+					<a class="btn-primary js-notification-action">{{action}}</a>
+					<div class="title-notification">{{title}}</div>
+				</div>
+			{{/each}}
+		</div>
 
     {{> overlay}}
 
@@ -56,5 +56,60 @@
       {{> yield}}
     </div>
 
-	</div>
+
+    <div class="cd-cart-container {{#unless itemsCount}}empty{{/unless}}">
+      <a href="#" class="cd-cart-trigger">
+        Pedido
+        <ul class="count">
+          <!-- cart items count -->
+          <li>{{itemsCount}}</li>
+          <li>{{add itemsCount 1}}</li>
+        </ul> <!-- .count -->
+      </a>
+
+      <div class="cd-cart">
+        <div class="wrapper">
+          <div class="cart-header">
+            <div class="cart-h2">Pedido</div>
+            <span class="undo {{itemRemoved}}">Item removido. <a href="#">Desfazer</a></span>
+					</div>
+
+          <div class="body">
+            <ul>
+							{{#each items}}
+							<li class="product">
+								<div class="product-image"><a href="#"><img src="/img/menu/320x350/{{name}}.jpg" alt="{{title}}"></a></div>
+								<div class="product-details">
+									<div class="cart-h3"><a href="#">{{title}}</a></div><span class="price">R${{moneyFormat price}}</span>
+									<div class="actions"><a href="#" class="delete-item">Apagar</a>
+										<div class="quantity">
+											<label for="cd-product-{{_id}}">Qtd</label>
+											<span class="select">
+												<select id="cd-product-{{_id}}" name="quantity">
+													<option value="1" {{quantity 1}}>1</option>
+													<option value="2" {{quantity 2}}>2</option>
+													<option value="3" {{quantity 3}}>3</option>
+													<option value="4" {{quantity 4}}>4</option>
+													<option value="5" {{quantity 5}}>5</option>
+													<option value="6" {{quantity 6}}>6</option>
+													<option value="7" {{quantity 7}}>7</option>
+													<option value="8" {{quantity 8}}>8</option>
+													<option value="9" {{quantity 9}}>9</option>
+												</select>
+											</span>
+										</div>
+									</div>
+								</div>
+							</li>
+							{{/each}}
+            </ul>
+          </div>
+
+          <div class="cart-footer">
+            <a href="#" class="checkout cart-btn"><div class="cart-em">Confirmar - R$<span>{{moneyFormat itemsTotal}}</span></div></a>
+					</div>
+        </div>
+      </div> <!-- .cd-cart -->
+    </div> <!-- cd-cart-container -->
+  </div>
 </template>

@@ -31,21 +31,27 @@ UI.registerHelper('itemImage', function(options) {
 
 });
 
-UI.registerHelper('moneyFormat', function(number) {
-		let dec = 2;
-		let dsep = ',';
-		let tsep = '.';
-		if (isNaN(number) || number == null) return '';
+moneyFormat = (number) => {
+	let dec = 2;
+	let dsep = ',';
+	let tsep = '.';
+	if (isNaN(number) || number == null) return '';
 
-		number = number.toFixed(~~dec);
-		tsep = typeof tsep == 'string' ? tsep : ',';
+	number = number.toFixed(~~dec);
+	tsep = typeof tsep == 'string' ? tsep : ',';
 
-		var parts = number.split('.'),
-			fnums = parts[0],
-			decimals = parts[1] ? (dsep || '.') + parts[1] : '';
+	var parts = number.split('.'),
+		fnums = parts[0],
+		decimals = parts[1] ? (dsep || '.') + parts[1] : '';
 
-		return fnums.replace(/(\d)(?=(?:\d{3})+$)/g, '$1' + tsep) + decimals;
-});
+	return fnums.replace(/(\d)(?=(?:\d{3})+$)/g, '$1' + tsep) + decimals;
+}
+
+moneyToNumber = (money) => {
+	return Number(money.replace(/\./g, '').replace(/,/g, '.')).toFixed(2)
+}
+
+UI.registerHelper('moneyFormat', moneyFormat);
 
 UI.registerHelper('getTime', function(date) {
 		return ("0" + date.getHours()).slice(-2) + ':' + ("0" + date.getMinutes()).slice(-2);
@@ -54,6 +60,10 @@ UI.registerHelper('getTime', function(date) {
 UI.registerHelper('getTimeDiff', function(date) {
 	const d = new Date();
 	return Math.floor((d.getTime() - date.getTime())/60000);
+});
+
+UI.registerHelper('add', function(a, b) {
+	return a + b;
 });
 
 Handlebars.registerHelper('activePage', function() {

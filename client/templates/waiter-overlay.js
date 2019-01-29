@@ -26,3 +26,7 @@ Template.waiterOverlay.events({
 		Template.waiterOverlay.callWaiter();
 	},
 })
+
+Template.waiterOverlay.onRendered(function() {
+	setTimeout(() => { $('input').focus(); }, 300);
+})

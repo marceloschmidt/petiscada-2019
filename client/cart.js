@@ -1,3 +1,1 @@
-Cart = {
-	items: new ReactiveVar([])
-};
+Cart = new Mongo.Collection(null);

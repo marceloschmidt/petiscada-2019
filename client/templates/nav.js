@@ -8,7 +8,6 @@ Template.nav.helpers({
 	},
 
 	cartCount() {
-		cart = Cart.items.get();
-		return cart.length;
+		return Cart.find({ removed: { $ne: true } }).count();
 	}
 });
