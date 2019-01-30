@@ -378,6 +378,7 @@ Main Components
 
 	.actions {
 		font-size: 0.7em;
+		margin-top: 3em;
 		@include clearfix;
 	}
 
@@ -425,6 +426,8 @@ Main Components
 		position: relative;
 		padding: 0 1em 0 0;
 		cursor: pointer;
+		-moz-appearance: none;
+		-webkit-appearance: none;
 		appearance: none;
 		background: transparent;
 		border: none;
