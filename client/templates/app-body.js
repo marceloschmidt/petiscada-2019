@@ -200,7 +200,7 @@ Template.appBody.events({
 		if (Cart.clearTimeout) {
 			Meteor.clearTimeout(Cart.clearTimeout);
 		}
-		Cart.update({}, { $unset: { removed: 1 }});
+		Cart.update({}, { $unset: { removed: 1 }}, { multi: true });
 	},
 
 	'click .cd-cart-container .checkout'(event, instance) {
