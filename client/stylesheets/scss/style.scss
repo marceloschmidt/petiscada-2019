@@ -378,7 +378,7 @@ Main Components
 
 	.actions {
 		font-size: 0.7em;
-		margin-top: 3em;
+		margin-top: 2em;
 		@include clearfix;
 	}
 
@@ -391,8 +391,6 @@ Main Components
 
 	.delete-item {
 		margin-right: 1em;
-		margin-top: 0.2em;
-
 		&:hover {
 			color: $color-5;
 		}
