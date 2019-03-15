@@ -104,7 +104,8 @@ Template.adminOrders.save = (instance) => {
 	const data = {
 		code: parseInt($('#code').val()) || 0,
 		item: $('#item').find('option:selected').attr('name'),
-		quantity: 1
+		quantity: parseInt($('#quantity').val()) || 0,
+		preorder: $('#preorder').prop('checked')
 	}
 
 	if (data.code < 1) {

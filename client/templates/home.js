@@ -15,7 +15,17 @@ Template.home.helpers({
 
 Template.home.events({
 	'click .waiter': () => {
+		const code = localStorage.getItem('code');
+		if (code) {
+			Meteor.call('waiter', code, function (err) {
+				Meteor.subscribe('notifications', code);
+				Overlay.close();
+				Router.go('home');
+				$('nav .code').text(code);
+			});
+		} else {
 			return Overlay.open('waiterOverlay');
+		}
 	}
 })
 

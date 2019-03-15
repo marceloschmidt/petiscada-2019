@@ -9,5 +9,16 @@ Template.nav.helpers({
 
 	cartCount() {
 		return Cart.find({ removed: { $ne: true } }).count();
+	},
+
+	code() {
+		return localStorage.getItem('code');
 	}
 });
+
+
+Template.nav.events({
+	'click .js-code': () => {
+		return Overlay.open('codeOverlay');
+	}
+})

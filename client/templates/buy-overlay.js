@@ -28,6 +28,7 @@ Template.buyOverlay.buy = () => {
 				Meteor.subscribe('notifications', localStorage.getItem('code'));
 				Overlay.close();
 				Router.go('home');
+				$('nav .code').text(code);
 			}
 		});
 	}
@@ -47,5 +48,6 @@ Template.buyOverlay.events({
 })
 
 Template.buyOverlay.onRendered(function() {
+	localStorage.removeItem('newCode');
 	setTimeout(() => { $('input').focus() }, 300);
 })

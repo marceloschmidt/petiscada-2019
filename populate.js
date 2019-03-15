@@ -2,6 +2,7 @@ CUSTOMERS = 150;
 
 Meteor.methods({
 	populate() {
+		const foods = Menu.findOne().fetch();
 		for (let i = 0; i < CUSTOMERS; i++) {
 			const customer = {
 				code: Math.ceil(Math.random() * 1000000),
@@ -43,10 +44,10 @@ Meteor.methods({
 					quantity: customer.tickets,
 					status: ''
 				};
-				const item = Foods[order.item] || Drinks[order.item] || Desserts[order.item];
+				const item = _.sample(foods);
 				order.title = item.title;
 				order.price = item.price;
-				order.quantity = 1;
+				order.quantity = _.random(1, 3);
 				order.status = item.status[0];
 				Orders.insert(order);
 				customer.total += order.price;

@@ -1,6 +1,6 @@
-Template.waiterOverlay.callWaiter = () => {
+Template.codeOverlay.setCode = () => {
 	const code = $('input').val();
-	Meteor.call('waiter', code, function (err) {
+	Meteor.call('checkCode', code, function (err) {
 		if (err) {
 			$('.code').addClass('error');
 			$('.alert').fadeIn(500);
@@ -14,20 +14,20 @@ Template.waiterOverlay.callWaiter = () => {
 		}
 	});
 }
-Template.waiterOverlay.events({
+Template.codeOverlay.events({
 	'keydown input'(e, instance) {
 		if (e.keyCode === 13) {
 			e.preventDefault();
-			Template.waiterOverlay.callWaiter();
+			Template.codeOverlay.setCode();
 		}
 	},
 
 	'click .js-call'(e) {
 		e.preventDefault();
-		Template.waiterOverlay.callWaiter();
+		Template.codeOverlay.setCode();
 	},
 })
 
-Template.waiterOverlay.onRendered(function() {
+Template.codeOverlay.onRendered(function() {
 	setTimeout(() => { $('input').focus(); }, 300);
 })
