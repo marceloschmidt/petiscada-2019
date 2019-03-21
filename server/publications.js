@@ -11,7 +11,7 @@ Meteor.publish('menu', function () {
 
 Meteor.publish('orders', function ({ code = 0 } = {}) {
 	if (code) {
-		return Orders.find({ code: parseInt(code), item: { $nin: ['entry','waiter'] } }, { sort: { createdAt: -1 } });
+		return Orders.find({ code: parseInt(code), item: { $ne: 'waiter' } }, { sort: { createdAt: -1 } });
 	} else {
 		return this.ready();
 	}
@@ -27,7 +27,6 @@ Meteor.publish('customers', function({ filter = {}, sort = { createdAt: -1 }, sk
 })
 
 Meteor.publish('adminOrders', function ({ filter = {}, sort = { createdAt: -1 }, limit = 0, skip = 0 } = {}) {
-	filter = Object.assign({ item: { $ne: 'entry' }, status: { $ne: '' } }, filter);
 	let user = Meteor.users.findOne(this.userId);
 	if (user && user.admin) {
 		return Orders.find(filter, { sort: sort, limit: limit, skip });

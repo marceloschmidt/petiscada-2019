@@ -26,13 +26,11 @@ Template.adminCustomers.helpers({
 	invoiceOrders() {
 		let orders = Template.instance().closeCustomerOrders.get();
 		orders = orders.reduce((orders, order) => {
-			if (orders && orders[order.item]) {
-				if (order.quantity > 0) {
-					orders[order.item].quantity++;
-					orders[order.item].subtotal += order.price;
-				}
-			} else if (order.quantity > 0) {
-				orders[order.item] = { title: order.title, quantity: order.quantity, price: order.price, subtotal: order.price * order.quantity }
+			if (orders && orders[order.item + order.price]) {
+				orders[order.item + order.price].quantity++;
+				orders[order.item + order.price].subtotal += order.price;
+			} else {
+				orders[order.item + order.price] = { title: order.title, quantity: 1, price: order.price, subtotal: order.price }
 			}
 			return orders;
 		}, {});
@@ -64,7 +62,6 @@ Template.adminCustomers.save = (instance) => {
 		name: instance.find('#name').value,
 		table: parseInt(instance.find('#table').value) || 0,
 		people: parseInt(instance.find('#people').value) || 0,
-		tickets: parseInt(instance.find('#tickets').value) || 0,
 		editing: instance.editing.get()
 	}
 
@@ -86,7 +83,7 @@ Template.adminCustomers.save = (instance) => {
 		return;
 	}
 
-	Meteor.call('saveCustomer', data, (err, success) => {
+	Meteor.call('saveCustomer', data, (err) => {
 		if (err) {
 			$('#code').addClass('error');
 			setTimeout("$('#code').focus()", 500);
@@ -209,16 +206,15 @@ Template.adminCustomers.events({
 		} else if ($(e.currentTarget).hasClass('credit-confirm')) {
 			payType = 'credit';
 		}
-		const customer = Customers.findOne({ code });
 		const newOrder = instance.newOrder.get();
 		let newOrderTotal = 0;
 		if (newOrder) {
 			newOrderTotal = (newOrder.quantity || 1) * (newOrder.price || 0);
 		}
 		if (newOrderTotal !== 0) {
-			Meteor.call('addItem', { code, name: customer.name, table: customer.table, item: newOrder.item, quantity: parseInt(newOrder.quantity), price: parseFloat(newOrder.price) }, (err, success) => {
+			Meteor.call('addItem', { code, item: newOrder.item, quantity: parseInt(newOrder.quantity), price: parseFloat(newOrder.price) }, (err) => {
 				if (!err) {
-					Meteor.call('closeCustomer', { code, payType }, (err, success) => {
+					Meteor.call('closeCustomer', { code, payType }, () => {
 						instance.newOrder.set({});
 						$('#closeCustomerModal input').val('');
 						$('#closeCustomerModal').modal('hide');
@@ -226,12 +222,22 @@ Template.adminCustomers.events({
 				}
 			})
 		} else {
-			Meteor.call('closeCustomer', { code, payType }, (err, success) => {
+			Meteor.call('closeCustomer', { code, payType }, () => {
 				$('#closeCustomerModal input').val('');
 				$('#closeCustomerModal').modal('hide');
 				instance.newOrder.set({});
 			});
 		}
+	},
+
+	'click .reopen'(e, instance) {
+		e.preventDefault();
+		const code = instance.closeCustomer.get();
+		Meteor.call('reopenCustomer', { code }, () => {
+			$('#closeCustomerModal input').val('');
+			$('#closeCustomerModal').modal('hide');
+			instance.newOrder.set({});
+		});
 	},
 
 	'click .add-item'(e, instance) {
@@ -256,7 +262,7 @@ Template.adminCustomers.events({
 		setTimeout(() => { $('#itemName').focus(), 500 });
 	},
 
-	'blur .new-order-quantity, blur .new-order-price'(e, instance) {
+	'blur .new-order-price'(e, instance) {
 		const item = $('.new-order-item').val();
 		const quantity = $('.new-order-quantity').val();
 		const price = $('.new-order-price').val();

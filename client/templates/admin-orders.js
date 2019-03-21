@@ -16,6 +16,12 @@ Template.adminOrders.helpers({
 	hasMore() {
 		return Template.instance().hasMore.get();
 	},
+	items() {
+		return Menu.find({}, { sort: { title: 1 } });
+	},
+	open() {
+		return !this.closed;
+	}
 });
 
 Template.adminOrders.search = (instance) => {
@@ -98,12 +104,19 @@ Template.adminOrders.events({
 			}
 		})
 	},
+
+	'change #item'(e) {
+		e.preventDefault();
+		const price = $(e.currentTarget).find(':selected').data('price');
+		$('#price').val(moneyFormat(price));
+	},
 })
 
 Template.adminOrders.save = (instance) => {
 	const data = {
 		code: parseInt($('#code').val()) || 0,
 		item: $('#item').find('option:selected').attr('name'),
+		price: moneyToNumber($('#price').val()),
 		quantity: parseInt($('#quantity').val()) || 0,
 		preorder: $('#preorder').prop('checked')
 	}
@@ -120,7 +133,7 @@ Template.adminOrders.save = (instance) => {
 		return;
 	}
 
-	Meteor.call('addItem', data, (err, success) => {
+	Meteor.call('addItem', data, (err) => {
 		if (err) {
 			$('#code').addClass('error');
 			setTimeout("$('#code').focus()", 500);

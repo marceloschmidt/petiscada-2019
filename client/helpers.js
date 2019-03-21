@@ -48,7 +48,7 @@ moneyFormat = (number) => {
 }
 
 moneyToNumber = (money) => {
-	return Number(money.replace(/\./g, '').replace(/,/g, '.')).toFixed(2)
+	return parseFloat(Number(money.replace(/\./g, '').replace(/,/g, '.')).toFixed(2))
 }
 
 UI.registerHelper('moneyFormat', moneyFormat);

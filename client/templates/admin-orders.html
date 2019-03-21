@@ -71,24 +71,19 @@
 											<div class="form-group">
 												<div class="form-label">Item</div>
 												<select id="item" class="form-control">
-													<option name="batatinha">Batata Frita</option>
-													<option name="pasteis">Pasteis</option>
-													<option name="nachos">Nachos</option>
-													<option name="frios">Tábua de Frios</option>
-													<option name="cocacola">Coca-Cola</option>
-													<option name="guarana">Guaraná</option>
-													<option name="agua">Água</option>
-													<option name="agua-com-gas">Água com Gás</option>
-													<option name="limonada">Limonada Natural</option>
-													<option name="cerveja">Cerveja</option>
-													<option name="brownie-brigadeiro">Brownie Brigadeiro</option>
-													<option name="brownie-doce-de-leite">Brownie Doce de Leite</option>
-													<option name="brownie-sensacao">Brownie Sensação</option>
+													<option name="entry">Ingresso</option>
+													{{#each items}}
+														<option name="{{name}}" data-price="{{price}}">{{title}}</option>
+													{{/each}}
 												</select>
 											</div>
 											<div class="form-group">
 												<div class="form-label">Quantidade</div>
 												<input type="number" id="quantity" class="form-control" value="1" />
+											</div>
+											<div class="form-group">
+												<div class="form-label">Preço</div>
+												<input type="text" id="price" class="form-control" value="{{moneyFormat 5}}" />
 											</div>
 											<div class="form-group">
 												<div class="form-label">Pré-compra</div>
@@ -127,8 +122,8 @@
 										<tr>
 											<th>Nome</th>
 											<th>Mesa</th>
-											<th>Qtd</th>
 											<th>Pedido</th>
+											<th>R$</th>
 											<th>Horário</th>
 											<th>Status</th>
 											<th class="w-1"></th>
@@ -137,14 +132,16 @@
 											<tr>
 												<td><div>{{name}}</div><div class="small text-muted"> {{code}} </div></td>
 												<td>{{table}}</td>
-												<td>{{quantity}}</td>
 												<td>{{title}}</td>
+												<td>{{moneyFormat price}}</td>
 												<td><div>{{getTime createdAt}}</div><div class="small text-muted">{{getTimeDiff createdAt}} minutos atrás</div></td>
 												<td>{{status}}</td>
 												<td>
+													{{#if open}}
 													<div class="selectgroup w-100">
 														<span class="selectgroup-button selectgroup-button-icon trash"> <i class="fas fa-trash"></i> </span>
 													</div>
+													{{/if}}
 												</td>
 											</tr>
 										{{/each}}
